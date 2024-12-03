@@ -1,5 +1,5 @@
 /*
-REQUIRES 
+REQUIRES quadratic.gp
 
 SECTION 1: Background
 Quadratic form supporting methods.
@@ -69,4 +69,30 @@ qfbpowmulvec(gens, pows) = {
   for (i = 2, #pows, q = qfbcomp(q, qfbpow(gens[i], pows[i])));
   return(q);
 }
+
+/*Given a Qfb x, this returns a similar form with first coefficient coprime to 2D (twice the discriminant). We hit it randomly with L and S until this is true.*/
+qfbcoprimeshift(x) = {
+  my(twoD);
+  twoD = x.disc << 1;
+  while (gcd(twoD, Vec(x)[1]) > 1,
+    if (random(2),
+      x = qfbapplyS(x);
+    ,
+      x = qfbapplyL(x);
+    );
+  );
+  return(x);
+}
+
+
+/*Given a vector v of qfbs, this returns 1 if one of the elements properly represents n, and 0 if none of them do.*/
+qfbvecsolve(v, n) = {
+  my(l);
+  l = #v;
+  for (i = 1, l,
+    if (qfbsolve(v[i], n, 0), return(1));
+  );
+  return(0);
+}
+
 

@@ -113,12 +113,16 @@ qfbapplyR(GEN q, GEN n)
 GEN
 qfbapplyS(GEN q)
 {
+  pari_sp av = avma;
+  return gerepilecopy(av, mkqfb(gel(q, 3), negi(gel(q, 2)), gel(q, 1), gel(q, 4)));
+  /*This has a bug: not sure what.
   GEN Sq = cgetg(4, t_QFB);
   gel(Sq, 1) = icopy(gel(q, 3));
   gel(Sq, 2) = negi(gel(q, 2));
   gel(Sq, 3) = icopy(gel(q, 1));
   gel(Sq, 4) = icopy(gel(q, 4));
   return Sq;
+  */
 }
 
 /*Converts the ideal x in the (necessarily quadratic) number field nf into an integral quadratic form. We are assuming that we are working in the maximal ideal for now. We follow Buell.*/
