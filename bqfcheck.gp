@@ -96,3 +96,29 @@ qfbvecsolve(v, n) = {
 }
 
 
+
+/*SECTION 2: Theorem 2*/
+
+/*Returns [epsilon_2, [p_1, ..., p_r], [epsilon_{p_1}, ..., epsilon_{p_r}], [d_{p_1}, ..., d_{p_r}]]*/
+D_getdat(D) = {
+  my(Ds, e2, f, ps, es, ds);
+  if (D < 0, Ds = -D, Ds = D);/*Make positive*/
+  e2 = valuation(Ds, 2);
+  Ds = Ds / (1 << e2);/*Odd part*/
+  f = factor(Ds);
+  ps = f[, 1]~;/*Odd prime factors*/
+  es = f[, 2]~;/*Powers */
+  ds = vector(#ps);
+  for (i = 1, #ps,
+    ds[i] = D / ps[i]^es[i];
+  );
+  return ([e2, ps, es, ds]);
+}
+
+/*Given a genus of quadratic forms v, all of discriminant D, as well as Ddat=D_getdat(D), this checks if n is represented by a form in this genus, as determined by Theorem 2 of Iwaniec.*/
+thm2(v, Ddat, n) = {
+  my();
+  
+}
+
+
