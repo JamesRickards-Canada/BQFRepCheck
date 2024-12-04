@@ -117,7 +117,7 @@ D_getdat(D) = {
 
 /*Given a genus of quadratic forms, all of discriminant D, with representative [a, b, c] satisfying gcd(a, 2D)=1, as well as Ddat=D_getdat(D), this checks if n is represented by a form in this genus, as determined by Theorem 2 of Iwaniec.*/
 thm2(a, Ddat, n) = {
-  my(D, m, p, th, e, ptoe, line2check, e2, th2, Dstar, nodd, frem, f);
+  my(D, m, p, th, e, ptoe, line2check, e2, th2, D2, nodd, frem, f);
   /*Begin by checking the odd primes dividing D.*/
   D = Ddat[1];
   m = n;
@@ -141,7 +141,7 @@ thm2(a, Ddat, n) = {
             if ((n / p^e) % 3 == (-a % 3), line2check = 0);/*Line 3 passed, no need to check line 2.*/
           );
           if (line2check,/*Check line 2 for p=3*/
-            if (Ddat[6] % 3 != 2, return(0));
+            if (Ddat[5][i] % 3 != 2, return(0));
           );
         );
       );
@@ -156,24 +156,24 @@ thm2(a, Ddat, n) = {
   /*Next, p=2*/
   e2 = valuation(m, 2);
   th2 = Ddat[2];
-  Dstar = abs(Ddat[6]);
+  D2 = Ddat[6];
   nodd = n >> e2;/*Odd part of n.*/
   if (e2 == 0,
     if (th2 == 0, if (D % 4 != 1, return(0)));/*Line 7*/
     if (th2 == 1, return(0));/*Not represented*/
     if (th2 == 2,/*Line 8*/
-      if (Dstar % 4 == 3,/*8a, one more check*/
+      if (D2 % 4 == 3,/*8a, one more check*/
         if (nodd % 4 != (a % 4), return(0));/*Line 8a failed*/
       );
     );
-    if (th == 3,/*Line 9*/
+    if (th2 == 3,/*Line 9*/
       frem = nodd % 8;
-      if (frem != (a % 8) && frem != ((-a * (1 - 2 * Dstar)) % 8), return(0));
+      if (frem != (a % 8) && frem != ((a * (1 - 2 * D2)) % 8), return(0));
     );
-    if (th == 4,/*Line 10*/
+    if (th2 == 4,/*Line 10*/
       if (nodd % 4 != (a % 4), return(0));
     );
-    if (th >= 5,/*Line 11*/
+    if (th2 >= 5,/*Line 11*/
       if (nodd % 8 != (a % 8), return(0));
     );
   );
@@ -190,28 +190,28 @@ thm2(a, Ddat, n) = {
   );
   if (e2 >= 1 && th2 >= 1 && e2 == (th2 - 3),/*Line 15*/
     if (e2 % 2, return(0));
-    if (nodd % 8 != ((a * (1 - 2 * Dstar)) % 8), return(0));
+    if (nodd % 8 != ((a * (1 - 2 * D2)) % 8), return(0));
   );
   if (e2 >= 1 && th2 >= 1 && e2 == (th2 - 2),/*Line 16, 17*/
     if (e2 % 2,/*Line 17*/
       frem = nodd % 8;
-      if (frem != (-a * Dstar % 8) && (frem != ((a * (2 - Dstar)) % 8)), return(0));
+      if (frem != ((-a * D2) % 8) && (frem != ((a * (2 - D2)) % 8)), return(0));
     ,/*Line 16*/
-      if ((nodd % 4) != (-a * Dstar % 4), return(0));
+      if ((nodd % 4) != ((-a * D2) % 4), return(0));
     )
   );
   if (e2 >= 1 && th2 >= 1 && e2 == (th2 - 1),/*Line 18*/
     if (e2 % 2 == 0, return(0));
-    if (Dstar % 4 == 1, return(0));
-    if (nodd % 4 != (a * ((1 - Dstar) / 2) % 4), return(0));
+    if (D2 % 4 != 3, return(0));
+    if (nodd % 4 != (a * ((1 - D2) / 2) % 4), return(0));
   );
   if (e2 >= 1 && th2 >= 1 && e2 == th2,/*Line 19*/
     if (e2 % 2, return(0));
-    if (Dstar % 8 != 5, return(0));
+    if (D2 % 8 != 5, return(0));
   );
   if (e2 >= 1 && th2 >= 1 && e2 > th2,/*Line 20*/
     if (th2 % 2, return(0));
-    if (Dstar % 8 != 1, return(0));
+    if (D2 % 8 != 1, return(0));
   );
   m >>= e2;/*Update m*/
   
@@ -224,5 +224,30 @@ thm2(a, Ddat, n) = {
   return(1);/*All lines passed!*/
 }
 
+/*
+ACTUALLY just updated Dstar to D_2
 
+Line 18: Dstar == 1 mod 4
+Line 18: Also changed (1-Dstart) to (1+Dstar); is this correct???
+Line 20: Changed to is != 1 mod 8.
+Line 17: changed to aD* and a(2+D*)
+Line 8: swapped the two signs
+*/
 
+/*Tests Theorem 2 on all genera for n between n1 and n2*/
+test_thm2(D, n1, n2) = {
+  my(except = 0, g, Ddat, a);
+  g = genera(D);
+  Ddat = D_getdat(D);
+  for (i = 1, #g,
+    a = Vec(qfbcoprimeshift(g[i][1]))[1];
+    for (n = n1, n2,
+      if (thm2(a, Ddat, n) != qfbvecsolve(g[i], n), 
+        except++;
+        printf("%d %d\n", i, n);
+        if (except >= 20, return(0));/*More than 20 exceptions, ABORT*/
+      );
+    );
+  );
+  return(1);
+}
