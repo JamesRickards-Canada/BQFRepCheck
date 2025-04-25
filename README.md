@@ -41,7 +41,7 @@ Call ```git clone https://github.com/JamesRickards-Canada/BQFRepCheck.git```. If
 * If you still have trouble installing or using the package, please get in touch!
 
 ## Using the code
-Start gp and load the files with ```gp quadratic bqfcheck```. The tests we claim out paper can be accomplished with
+Start gp and load the files with ```gp quadratic bqfcheck```. The tests we claim in our paper can be accomplished with
 ```
 dl = disclist(-1000, 1000);
 for (i = 1, #dl, test_thm2(dl[i], -100000, 100000));
