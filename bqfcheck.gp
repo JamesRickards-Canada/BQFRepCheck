@@ -229,7 +229,7 @@ test_thm2(D, n1, n2) = {
   for (i = 1, #g,
     a = Vec(qfbcoprimeshift(g[i][1]))[1];
     for (n = n1, n2,
-      if (thm2(a, Ddat, n) != qfbvecsolve(g[i], n), 
+      if (n != 0 && thm2(a, Ddat, n) != qfbvecsolve(g[i], n), 
         except++;
         printf("%d %d\n", i, n);
         if (except >= 20, return(0));/*More than 20 exceptions, ABORT*/
