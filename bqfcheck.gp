@@ -224,16 +224,6 @@ thm2(a, Ddat, n) = {
   return(1);/*All lines passed!*/
 }
 
-/*
-ACTUALLY just updated Dstar to D_2
-
-Line 18: Dstar == 1 mod 4
-Line 18: Also changed (1-Dstart) to (1+Dstar); is this correct???
-Line 20: Changed to is != 1 mod 8.
-Line 17: changed to aD* and a(2+D*)
-Line 8: swapped the two signs
-*/
-
 /*Tests Theorem 2 on all genera for n between n1 and n2*/
 test_thm2(D, n1, n2) = {
   my(except = 0, g, Ddat, a);
@@ -251,3 +241,4 @@ test_thm2(D, n1, n2) = {
   );
   return(1);
 }
+
