@@ -46,4 +46,4 @@ Start gp and load the files with ```gp quadratic bqfcheck```. The tests we claim
 dl = disclist(-1000, 1000);
 for (i = 1, #dl, test_thm2(dl[i], -100000, 100000));
 ```
-Any contradictions to the tables will produce an output. If the method never outputs and finishes by returning 1, all tests were passed.
+Any contradictions to the tables will produce an output. If the method does not print anything and finishes, all tests were passed.
