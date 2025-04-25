@@ -1,5 +1,5 @@
 /*
-REQUIRES quadratic.gp
+LOAD quadratic.gp in addition to this file.
 
 SECTION 1: Background
 Quadratic form supporting methods.
@@ -9,8 +9,6 @@ SECTION 2: Theorem 2
 Testing Theorem 2.
 
 */
-
-
 
 
 /*SECTION 1: Background*/
@@ -83,7 +81,6 @@ qfbcoprimeshift(x) = {
   );
   return(x);
 }
-
 
 /*Given a vector v of qfbs, this returns 1 if one of the elements properly represents n, and 0 if none of them do.*/
 qfbvecsolve(v, n) = {
@@ -224,7 +221,7 @@ thm2(a, Ddat, n) = {
   return(1);/*All lines passed!*/
 }
 
-/*Tests Theorem 2 on all genera for n between n1 and n2*/
+/*Tests Theorem 2 on all genera for n between n1 and n2, printing any exceptions that occur.*/
 test_thm2(D, n1, n2) = {
   my(except = 0, g, Ddat, a);
   g = genera(D);
