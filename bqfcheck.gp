@@ -236,6 +236,7 @@ test_thm2(D, n1, n2) = {
       );
     );
   );
-  return(1);
+  if (except == 0, return(1));/*No failures*/
+  return(-1);/*At least 1 failure*/
 }
 
