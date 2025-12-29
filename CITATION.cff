@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below, in addition to citing the paper referenced in the README. This DOI points to the latest release, and you may wish to update it with the DOI of the exact version you wish to cite."
+authors:
+  - family-names: Rickards
+    given-names: James
+    orcid: https://orcid.org/0000-0003-3387-9368
+title: "BQFRepCheck"
+version: 1.0.1
+identifiers:
+  - description: DOI that always points to the latest version.
+    type: doi
+    value: 10.5281/zenodo.18089403
+date-released: 2025-12-29
+license: "GPL-3.0"
+repository-code: "https://github.com/JamesRickards-Canada/BQFRepCheck"
