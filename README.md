@@ -5,6 +5,9 @@ This repository contains code to computationally check which integers can be rep
 
 Ensuring the correctness of the tables and correcting the minor errors was critical for the proofs in the paper "Primes represented by shifted quadratic forms: on primitivity and congruence classes", by Fuchs, Hsu, Rickards, Schindler, and Stange.
 
+### Citation
+Check the "Cite this repository" on the side bar (under "About") for a sample BibLaTeX entry.
+
 ## Installation Instructions
 
 ### Downloading the code
