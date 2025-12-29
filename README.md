@@ -3,7 +3,7 @@ Installation instructions: see below.
 
 This repository contains code to computationally check which integers can be represented by a shifted binary quadratic form, comparing it to the theoretical statement in Theorems 2 and 3 of "Primes of the type ϕ(x,y)+A where ϕ is a quadratic form", by Iwaniec, which can be found [here](http://matwbn.icm.edu.pl/ksiazki/aa/aa21/aa21118.pdf).
 
-Ensuring the correctness of the tables and correcting the minor errors was critical for the proofs in the paper "Primes represented by shifted quadratic forms: on primitivity and congruence classes", by Fuchs, Hsu, Rickards, Schindler, and Stange.
+Ensuring the correctness of the tables and correcting the minor errors was critical for the proofs in the paper [Primes represented by shifted quadratic forms: on primitivity and congruence classes](https://doi.org/10.48550/arXiv.2504.20289), by Fuchs, Hsu, Rickards, Schindler, and Stange.
 
 ### Citation
 Check the "Cite this repository" on the side bar (under "About") for a sample BibLaTeX entry.
