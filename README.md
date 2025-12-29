@@ -1,4 +1,6 @@
 # BQFRepCheck
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1003149.svg)](https://doi.org/10.5281/zenodo.18089403)
+
 Installation instructions: see below.
 
 This repository contains code to computationally check which integers can be represented by a shifted binary quadratic form, comparing it to the theoretical statement in Theorems 2 and 3 of "Primes of the type ϕ(x,y)+A where ϕ is a quadratic form", by Iwaniec, which can be found [here](http://matwbn.icm.edu.pl/ksiazki/aa/aa21/aa21118.pdf).
