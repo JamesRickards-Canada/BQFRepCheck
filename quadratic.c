@@ -11,13 +11,10 @@
 GEN disclist(GEN D1, GEN D2, int fund, GEN cop);
 int isdisc(GEN D);
 
-/*BASIC METHODS*/
-static GEN nf_get_rootD(GEN nf, GEN D);
+/*QUADRATIC FORM METHODS*/
 GEN qfbapplyL(GEN q, GEN n);
 GEN qfbapplyR(GEN q, GEN n);
 GEN qfbapplyS(GEN q);
-GEN idealtoqfb(GEN nf, GEN x);
-GEN qfbtoideal(GEN nf, GEN q);
 
 /*CLASS GROUP*/
 GEN lexind(GEN v, long ind);
@@ -81,7 +78,7 @@ isdisc(GEN D)
 }
 
 
-/*BASIC METHODS*/
+/*QUADRATIC FORM METHODS*/
 
 /*Returns L^n acting on q.*/
 GEN
@@ -123,73 +120,6 @@ qfbapplyS(GEN q)
   gel(Sq, 4) = icopy(gel(q, 4));
   return Sq;
   */
-}
-
-/*Converts the ideal x in the (necessarily quadratic) number field nf into an integral quadratic form. We are assuming that we are working in the maximal ideal for now. We follow Buell.*/
-GEN
-idealtoqfb(GEN nf, GEN x)
-{
-  pari_sp av = avma;
-  if (nf_get_degree(nf) != 2) pari_err_TYPE("must be a quadratic number field", nf);
-  GEN D = nf_get_disc(nf);
-  GEN hnfx = idealhnf(nf, x);
-  GEN a1 = gel(hnfx, 1), a2 = gel(hnfx, 2);/*Generators of the ideal, with a1 in Q.*/
-  GEN a2tr = nftrace(nf, a2);/*integer or fraction*/
-  GEN a2conj = nfsub(nf, a2tr, a2);
-  GEN diff = nfsub(nf, a2conj, a2);/*conj(a)-a2*/
-  GEN normrt = nfmul(nf, a1, diff);/*a1*conj(a2)-conj(a1)*a2 since a1=conj(a1)*/
-  GEN y = nf_get_rootD(nf, D);/*sqrt(D), chosen consistently.*/
-  GEN norm = lift(basistoalg(nf, nfdiv(nf, normrt, y)));/*(a1*conj(a2)-conj(a1)*a2)/sqrt(D)=N(a), lives in Q*/
-  int swap = 0;
-  if (gsigne(norm) < 0) { swap = 1; norm = gneg(norm); }/*We order so that norm>0, so must swap if not.*/
-  GEN invnorm = ginv(norm);
-  GEN A = gmul(nfnorm(nf, a1), invnorm);
-  GEN B = gmul(gmul(lift(basistoalg(nf, a1)), a2tr), invnorm);
-  GEN C = gmul(nfnorm(nf, a2), invnorm);
-  if (swap) return gerepilecopy(av, mkqfb(C, B, A, D));
-  return gerepilecopy(av, mkqfb(A, B, C, D));
-}
-
-/*Converts the qfb (positive definite if disc<0) to a fractional ideal in the number field nf. Under SL(2, Z) equivalence, this is inverse to idealtoqfb.*/
-GEN
-qfbtoideal(GEN nf, GEN q)
-{
-  pari_sp av = avma;
-  GEN D = gel(q, 4), A = gel(q, 1);
-  GEN y = nf_get_rootD(nf, D), b, delta;
-  if (mod2(D)) {/*D odd*/
-    b = shifti(subis(gel(q, 2), 1), -1);/*(B-1)/2*/
-    delta = gdivgs(nfsub(nf, gen_1, y), 2);/*1-sqrt(D)/2*/
-  }
-  else {/*D even*/
-    b = shifti(gel(q, 2), -1);/*B/2*/
-    delta = gneg(y);/*-sqrt(D)*/
-  }
-  GEN a1 = mkcol2(A, gen_0);/*The element A in the number field*/
-  GEN a2 = nfadd(nf, b, delta);/*b+delta*/
-  if (signe(A) < 0) {
-    a1 = nfmul(nf, a1, delta);/*A*delta*/
-    a2 = nfmul(nf, a2, delta);/*(b+delta)*delta*/
-  }
-  GEN x = mkmat2(algtobasis(nf, a1), algtobasis(nf, a2));/*a1 and a2 are the generators of the ideal*/
-  return gerepilecopy(av, idealhnf(nf, x));
-}
-
-/*In a quadratic number field Q(sqrt(D)), returns the algebraic expression for the element which squares to D and has positive coefficient in the number field variable. Not stack clean.*/
-static GEN
-nf_get_rootD(GEN nf, GEN D)
-{
-  pari_sp av = avma;
-  GEN y = mkcol2(gen_0, gen_1);
-  y = nfsub(nf, y, gdivgs(nftrace(nf, y), 2));/*Trace 0, so squares to D*square*/
-  GEN ysqr = lift(basistoalg(nf, nfsqr(nf, y)));/*integer or fraction*/
-  GEN shift = gdiv(D, ysqr);/*Times the square root of this.*/
-  if (typ(shift) == t_INT) shift = sqrti(shift);/*Guaranteed to be a square.*/
-  else { gel(shift, 1) = sqrti(gel(shift, 1)); gel(shift, 2) = sqrti(gel(shift, 2)); }/*Must be a square fraction.*/
-  y = lift(basistoalg(nf, nfmul(nf, y, shift)));/*Now, y^2=D*/
-  GEN firstcoef = polcoef_i(y, 1, nf_get_varn(nf));/*The coefficient of the variable defining nf.*/
-  if (gsigne(firstcoef) < 0) y = gneg(y);/*We want y to be the square root of D for which the first coefficient is positive. This is consistent.*/
-  return gerepilecopy(av, y);
 }
 
 

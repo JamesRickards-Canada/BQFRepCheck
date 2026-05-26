@@ -10,7 +10,7 @@ OBJS = quadratic.o
 
 #PARI_LIB is folder where libpari.so/libpari.dylib is found, PARI_INCLUDE is where the pari.h header file is found, and PARI_CFG is the location of pari.cfg.
 PARI_LOC = $(TARGET).cfg
-PARI_CFG = $(shell grep "CFG=" "fdom.cfg" -s | cut -d"'" -f2)
+PARI_CFG = $(shell grep "CFG=" "$(PARI_LOC)" -s | cut -d"'" -f2)
 ifeq ($(PARI_CFG), )
 	PARI_CFG = /usr/local/lib/pari/pari.cfg
 endif

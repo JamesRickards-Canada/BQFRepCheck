@@ -3,7 +3,7 @@ parigp_version = version();
 quad_library = strprintf("./libquad-%d-%d-%d.so", parigp_version[1], parigp_version[2], parigp_version[3]);
 
 /*quadratic.c*/
-  addhelp(quadratic,"Discriminant methods:\n\tdisclist, isdisc.\n\nBasic methods:\n\tqfbapply, qfbapplyL, qfbapplyR, qfbapplyS, idealtoqfb, qfbtoideal.\n\nClass group:\n\tlexind, qfbnarrow, qfbnarrowlex.");
+  addhelp(quadratic,"Discriminant methods:\n\tdisclist, isdisc.\n\nBasic methods:\n\tqfbapply, qfbapplyL, qfbapplyR, qfbapplyS.\n\nClass group:\n\tlexind, qfbnarrow, qfbnarrowlex.");
 
 /*SECTION 1: BINARY QUADRATIC FORMS*/
 
@@ -13,7 +13,7 @@ quad_library = strprintf("./libquad-%d-%d-%d.so", parigp_version[1], parigp_vers
   install(isdisc,"iG");
   addhelp(isdisc,"isdisc(D): returns 1 if D is a discriminant, 0 else.");
 	
-  /*1: BASIC METHODS*/
+  /*1: QUADRATIC FORM METHODS*/
   install(qfb_ZM_apply,"GG",qfbapply);/*In PARI but not installed.*/
   addhelp(qfbapply,"qfbapply(q, g): returns the quadratic form formed by g acting on q, where g is a matrix with integral coefficients.");
   install(qfbapplyL,"GD1,G,");
@@ -22,11 +22,7 @@ quad_library = strprintf("./libquad-%d-%d-%d.so", parigp_version[1], parigp_vers
   addhelp(qfbapplyR,"qfbapplyR(q, {n=1}): returns R^n acting on q, where R=[1, 0;1, 1].");
   install(qfbapplyS,"G");
   addhelp(qfbapplyS,"qfbapplyS(q): returns S acting on q, where S=[0, 1;-1, 0].");
-  install(idealtoqfb,"GG");
-  addhelp(idealtoqfb,"idealtoqfb(nf, x): given a quadratic number field, returns the primitive integral binary quadratic form corresponding to the fractional ideal x, positive definite if the field is imaginary. We also assume that we are working in the maximal ideal.");
-  install(qfbtoideal,"GG");
-  addhelp(qfbtoideal,"qfbtoideal(nf, q): given a quadratic number field, returns the fractional ideal corresponding to the primitive integral binary quadratic form q (positive definite if the field is imaginary). We also assume that its discriminant is fundamental.");
-	
+
 	/*1: CLASS GROUP*/
   install(lexind,"GL");
   addhelp(lexind,"lexind(v, ind): returns the index ind output of forvec(a=vector(#v, i, [0, v[i]-1]), print(a)), i.e. finds the corresponding lexicographic ordering element (we increment the indices from last to first).");
